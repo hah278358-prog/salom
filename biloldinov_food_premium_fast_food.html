@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biloldinov Food — Mazali Fast-Food va Tezkor Yetkazib Berish</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            orange: '#FF5722',
+                            amber: '#FFB300',
+                            red: '#E53935',
+                            dark: '#0F1115',
+                            card: '#181B22',
+                            border: '#262B36'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+            background-color: #0F1115;
+            color: #F3F4F6;
+            font-family: 'Inter', sans-serif;
+        }
+        .fluid-h1 {
+            font-size: clamp(1.85rem, 5vw, 3.75rem);
+            line-height: 1.12;
+        }
+        .fluid-h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+            line-height: 1.2;
+        }
+        .fluid-p {
+            font-size: clamp(0.95rem, 1.5vw, 1.125rem);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F1115;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2A303C;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF5722;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .nav-link.active {
+            color: #FF5722;
+            position: relative;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 2.5px;
+            background: linear-gradient(90deg, #FF5722, #FFB300);
+            border-radius: 999px;
+        }
+        .glass-header {
+            background: rgba(15, 17, 21, 0.9);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .food-card {
+            transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease;
+        }
+        .food-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 87, 34, 0.5);
+            box-shadow: 0 16px 32px -12px rgba(255, 87, 34, 0.22);
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.45); }
+            50% { box-shadow: 0 0 0 12px rgba(255, 87, 34, 0); }
+        }
+        .pulse-btn {
+            animation: pulseGlow 2.4s infinite;
+        }
+        .cart-drawer {
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-orange selection:text-white">
+
+    <!-- ==================== STICKY HEADER ==================== -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 glass-header transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                
+                <!-- Logo -->
+                <a href="#home" class="flex items-center gap-2.5 group shrink-0">
+                    <img src="Olovli BILOLDINOV FOOD bayrami.png" alt="Biloldinov Food Logo" class="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-xl shadow-md shadow-brand-orange/30 group-hover:scale-105 transition-transform" onerror="this.onerror=null; this.src='https://placehold.co/120x120/181B22/FF5722?text=BF';">
+                    <div class="flex flex-col">
+                        <span class="font-extrabold text-sm sm:text-lg tracking-tight text-white leading-none">
+                            BILOLDINOV <span class="text-brand-orange">FOOD</span>
+                        </span>
+                        <span class="text-[10px] sm:text-xs text-gray-400 font-medium tracking-wider uppercase mt-0.5">
+                            95 061 10 12
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden xl:flex items-center gap-6">
+                    <a href="#home" class="nav-link active text-sm font-semibold text-gray-200 hover:text-brand-orange transition-colors">Bosh sahifa</a>
+                    <a href="#menu" class="nav-link text-sm font-semibold text-gray-200 hover:text-brand-orange transition-colors">Menyu ko‘rish</a>
+                    <a href="#discounts" class="nav-link text-sm font-semibold text-gray-200 hover:text-brand-orange transition-colors">Chegirmalar</a>
+                    <a href="#popular" class="nav-link text-sm font-semibold text-gray-200 hover:text-brand-orange transition-colors">Mashhur taomlar</a>
+                    <a href="#delivery" class="nav-link text-sm font-semibold text-gray-200 hover:text-brand-orange transition-colors">Yetkazib berish</a>
+                    <a href="#about" class="nav-link text-sm font-semibold text-gray-200 hover:text-brand-orange transition-colors">Biz haqimizda</a>
+                    <a href="#location" class="nav-link text-sm font-semibold text-gray-200 hover:text-brand-orange transition-colors">Bizning manzilimiz</a>
+                    <a href="#contact" class="nav-link text-sm font-semibold text-gray-200 hover:text-brand-orange transition-colors">Bog‘lanish</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <button onclick="toggleCart()" aria-label="Savatcha" class="relative flex items-center gap-2 bg-brand-card hover:bg-brand-orange text-white border border-brand-border hover:border-brand-orange px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md">
+                        <i class="fa-solid fa-bag-shopping text-brand-amber text-base"></i>
+                        <span class="hidden sm:inline">Savatcha</span>
+                        <span id="cart-badge" class="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 text-xs font-extrabold bg-brand-orange text-white rounded-full border border-brand-dark">0</span>
+                    </button>
+
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu" class="xl:hidden flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-card border border-brand-border text-gray-200 hover:text-brand-orange">
+                        <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden xl:hidden bg-brand-card/98 backdrop-blur-xl border-b border-brand-border shadow-2xl">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1.5">
+                <a href="#home" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-200 hover:bg-brand-orange/15 hover:text-brand-orange"><i class="fa-solid fa-house w-5 text-brand-orange"></i> Bosh sahifa</a>
+                <a href="#menu" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-200 hover:bg-brand-orange/15 hover:text-brand-orange"><i class="fa-solid fa-utensils w-5 text-brand-orange"></i> Menyu ko‘rish</a>
+                <a href="#discounts" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-200 hover:bg-brand-orange/15 hover:text-brand-orange"><i class="fa-solid fa-tags w-5 text-brand-orange"></i> Chegirmalar</a>
+                <a href="#popular" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-200 hover:bg-brand-orange/15 hover:text-brand-orange"><i class="fa-solid fa-fire w-5 text-brand-orange"></i> Mashhur taomlar</a>
+                <a href="#delivery" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-200 hover:bg-brand-orange/15 hover:text-brand-orange"><i class="fa-solid fa-motorcycle w-5 text-brand-orange"></i> Yetkazib berish</a>
+                <a href="#about" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-200 hover:bg-brand-orange/15 hover:text-brand-orange"><i class="fa-solid fa-award w-5 text-brand-orange"></i> Biz haqimizda</a>
+                <a href="#location" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-200 hover:bg-brand-orange/15 hover:text-brand-orange"><i class="fa-solid fa-location-dot w-5 text-brand-orange"></i> Bizning manzilimiz</a>
+                <a href="#contact" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-200 hover:bg-brand-orange/15 hover:text-brand-orange"><i class="fa-solid fa-phone-volume w-5 text-brand-orange"></i> Bog‘lanish</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="home" class="relative pt-24 pb-14 sm:pt-32 sm:pb-20 lg:pt-36 lg:pb-24 overflow-hidden">
+        <div class="absolute top-20 -left-24 w-72 h-72 bg-brand-orange/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 -right-24 w-80 h-80 bg-brand-amber/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange/15 border border-brand-orange/30 text-brand-amber text-xs sm:text-sm font-bold mb-5">
+                        <span class="w-2 h-2 rounded-full bg-brand-orange animate-ping"></span>
+                        Andijondagi eng tezkor va mazali fast-food!
+                    </div>
+
+                    <h1 class="fluid-h1 font-black text-white tracking-tight mb-5">
+                        Haqiqiy Ta’m va Issiq <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-brand-amber to-brand-red">Fast-Food</span> Dunyosi!
+                    </h1>
+
+                    <p class="fluid-p text-gray-300 max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+                        <strong class="text-white">Biloldinov Food</strong> — sarxil go‘sht, maxsus uy souslari va yangi pishirilgan nonlar uyg‘unligi. 30 daqiqa ichida eshigingizgacha issiq holda yetkazib beramiz!
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#menu" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-red text-white font-extrabold text-base shadow-xl shadow-brand-orange/30 pulse-btn">
+                            <i class="fa-solid fa-utensils"></i> MENYU KO‘RISH
+                        </a>
+                        <a href="#discounts" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-brand-card hover:bg-brand-border text-white border border-brand-border font-bold text-base">
+                            <i class="fa-solid fa-percent text-brand-amber"></i> Aksiya va Chegirmalar
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3 sm:gap-6 max-w-lg mx-auto lg:mx-0 mt-10 pt-8 border-t border-brand-border/80">
+                        <div>
+                            <div class="text-xl sm:text-3xl font-black text-white">30 <span class="text-brand-orange text-sm">daq</span></div>
+                            <div class="text-xs sm:text-sm text-gray-400">Tez yetkazish</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-3xl font-black text-white">100<span class="text-brand-amber text-sm">%</span></div>
+                            <div class="text-xs sm:text-sm text-gray-400">Halol va barra</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-3xl font-black text-white">4.9 <i class="fa-solid fa-star text-brand-amber text-sm"></i></div>
+                            <div class="text-xs sm:text-sm text-gray-400">Mijozlar bahosi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 relative">
+                    <div class="relative bg-brand-card border border-brand-border rounded-3xl p-3 sm:p-4 shadow-2xl overflow-hidden">
+                        <img src="Olovli BILOLDINOV FOOD bayrami.png" alt="Biloldinov Food" class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-2xl" onerror="this.src='https://placehold.co/800x700/181B22/FF5722?text=BILOLDINOV+FOOD';">
+                        <div class="mt-3 flex items-center justify-between gap-3 bg-brand-dark/90 border border-brand-border rounded-2xl p-3.5">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-brand-amber">Kun Xiti</span>
+                                <h3 class="font-extrabold text-white text-sm sm:text-base">Biloldinov Special Burger</h3>
+                                <p class="text-brand-orange font-black text-sm sm:text-lg">38 000 so‘m</p>
+                            </div>
+                            <button onclick="addToCartById(5)" class="px-4 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-red text-white font-bold text-xs sm:text-sm transition-colors shrink-0">
+                                <i class="fa-solid fa-plus mr-1"></i> Qo‘shish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CHEGIRMALAR ==================== -->
+    <section id="discounts" class="py-14 sm:py-20 bg-brand-card/40 border-y border-brand-border/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+                <div>
+                    <span class="text-brand-orange font-bold text-xs sm:text-sm uppercase tracking-widest">Qaynoq Takliflar</span>
+                    <h2 class="fluid-h2 font-black text-white mt-1">Chegirmalar va Kombo Setlar</h2>
+                </div>
+                <p class="text-gray-400 text-sm sm:text-base max-w-md">Do‘stlaringiz yoki oilangiz bilan yanada hamyonbop narxlarda mazali taomlardan bahramand bo‘ling!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="relative rounded-3xl bg-gradient-to-br from-[#231715] to-brand-card border border-brand-orange/40 p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-red text-white text-xs font-extrabold mb-4"><i class="fa-solid fa-fire"></i> -20% CHEGIRMA</div>
+                        <h3 class="text-xl font-extrabold text-white mb-2">Talabalar Kombo Seti</h3>
+                        <p class="text-gray-300 text-sm mb-4">1 ta Klassik Tovuqli Lavash + 1 ta Kartoshka Fri + 1 ta Cola (0.5L) maxsus chegirmali narxda!</p>
+                    </div>
+                    <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-gray-400 line-through block">52 000 so‘m</span>
+                            <span class="text-lg font-black text-brand-amber">41 000 so‘m</span>
+                        </div>
+                        <button onclick="addToCartById(17)" class="px-4 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-red text-white font-bold text-sm">Savatga qo‘shish</button>
+                    </div>
+                </div>
+
+                <div class="relative rounded-3xl bg-gradient-to-br from-[#231E14] to-brand-card border border-brand-amber/40 p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-amber text-brand-dark text-xs font-extrabold mb-4"><i class="fa-solid fa-gift"></i> PROMOKOD: BILOL15</div>
+                        <h3 class="text-xl font-extrabold text-white mb-2">Birinchi Buyurtmaga 15%</h3>
+                        <p class="text-gray-300 text-sm mb-4">Saytimiz orqali ilk bor buyurtma bering va buyurtma izohida <strong class="text-white">BILOL15</strong> kodini yozing.</p>
+                    </div>
+                    <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                        <span class="text-xs text-gray-300">Barcha taomlarga amal qiladi</span>
+                        <button onclick="copyPromoCode('BILOL15')" class="px-4 py-2.5 rounded-xl bg-brand-amber/20 hover:bg-brand-amber text-brand-amber hover:text-brand-dark border border-brand-amber/40 font-bold text-sm"><i class="fa-regular fa-copy mr-1"></i> Nusxalash</button>
+                    </div>
+                </div>
+
+                <div class="relative rounded-3xl bg-gradient-to-br from-[#191D26] to-brand-card border border-brand-border p-6 flex flex-col justify-between md:col-span-2 lg:col-span-1">
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-extrabold mb-4"><i class="fa-solid fa-truck-fast"></i> BEPUL YETKAZISH</div>
+                        <h3 class="text-xl font-extrabold text-white mb-2">Oilaviy Mega Set</h3>
+                        <p class="text-gray-300 text-sm mb-4">2 ta Big Lavash + 2 ta Cheeseburger + 2 ta Fri + 1.5L Cola. Yetkazib berish bepul!</p>
+                    </div>
+                    <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-gray-400 line-through block">165 000 so‘m</span>
+                            <span class="text-lg font-black text-brand-orange">139 000 so‘m</span>
+                        </div>
+                        <button onclick="addToCartById(18)" class="px-4 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-red text-white font-bold text-sm">Savatga qo‘shish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TO‘LIQ MENYU ==================== -->
+    <section id="menu" class="py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-brand-orange font-bold text-xs sm:text-sm uppercase tracking-widest">Boy Assortiment</span>
+                <h2 class="fluid-h2 font-black text-white mt-1 mb-3">Biloldinov Food — To‘liq Menyu</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Kategoriyani tanlang yoki taom nomini yozib tezkor qidiring</p>
+            </div>
+
+            <!-- Qidiruv Paneli -->
+            <div class="max-w-xl mx-auto mb-8">
+                <div class="relative flex items-center">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 text-gray-400"></i>
+                    <input type="text" id="menu-search-input" oninput="filterMenu()" placeholder="Taom nomini qidiring (masalan: Lavash, Burger...)" class="w-full pl-11 pr-11 py-3.5 sm:py-4 rounded-2xl bg-brand-card border border-brand-border focus:border-brand-orange text-white placeholder-gray-400 text-sm sm:text-base outline-none transition-all">
+                    <button id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-3.5 w-8 h-8 rounded-lg bg-brand-border text-gray-300 hover:text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+
+            <!-- Kategoriyalar Paneli -->
+            <div id="category-filters" class="flex items-center gap-2 sm:gap-2.5 overflow-x-auto no-scrollbar pb-3 mb-8 justify-start lg:justify-center">
+                <button onclick="selectCategory('Barcha taomlar')" data-cat="Barcha taomlar" class="cat-btn active shrink-0 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-orange text-white shadow-lg shadow-brand-orange/25">Barcha taomlar</button>
+                <button onclick="selectCategory('Lavashlar')" data-cat="Lavashlar" class="cat-btn shrink-0 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-card text-gray-300 border border-brand-border">🌯 Lavashlar</button>
+                <button onclick="selectCategory('Burgerlar')" data-cat="Burgerlar" class="cat-btn shrink-0 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-card text-gray-300 border border-brand-border">🍔 Burgerlar</button>
+                <button onclick="selectCategory('Hot-doglar')" data-cat="Hot-doglar" class="cat-btn shrink-0 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-card text-gray-300 border border-brand-border">🌭 Hot-doglar</button>
+                <button onclick="selectCategory('Sendvichlar')" data-cat="Sendvichlar" class="cat-btn shrink-0 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-card text-gray-300 border border-brand-border">🥪 Sendvichlar</button>
+                <button onclick="selectCategory('Fri va gazaklar')" data-cat="Fri va gazaklar" class="cat-btn shrink-0 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-card text-gray-300 border border-brand-border">🍟 Fri va gazaklar</button>
+                <button onclick="selectCategory('Ichimliklar')" data-cat="Ichimliklar" class="cat-btn shrink-0 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-card text-gray-300 border border-brand-border">🥤 Ichimliklar</button>
+                <button onclick="selectCategory('Boshqa taomlar')" data-cat="Boshqa taomlar" class="cat-btn shrink-0 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-card text-gray-300 border border-brand-border">🍕 Boshqa taomlar</button>
+            </div>
+
+            <!-- Taomlar Grid -->
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6"></div>
+
+            <!-- Empty State -->
+            <div id="empty-menu-state" class="hidden text-center py-16 px-4 bg-brand-card rounded-3xl border border-brand-border">
+                <div class="w-16 h-16 rounded-2xl bg-brand-orange/15 text-brand-orange flex items-center justify-center mx-auto mb-4 text-2xl"><i class="fa-solid fa-utensils"></i></div>
+                <h3 class="text-xl font-bold text-white mb-2">Afsuski, bunday taom topilmadi</h3>
+                <p class="text-gray-400 text-sm mb-5">Boshqa so‘z bilan qidirib ko‘ring.</p>
+                <button onclick="resetMenuFilters()" class="px-6 py-2.5 rounded-xl bg-brand-orange text-white font-bold text-sm">Barcha taomlarni ko‘rsatish</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MASHHUR TAOMLAR ==================== -->
+    <section id="popular" class="py-16 sm:py-20 bg-brand-card/50 border-y border-brand-border/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+                <div>
+                    <span class="text-brand-amber font-bold text-xs sm:text-sm uppercase tracking-widest">Mijozlar Tanlovi</span>
+                    <h2 class="fluid-h2 font-black text-white mt-1">Eng Mashhur Taomlar</h2>
+                </div>
+                <a href="#menu" class="inline-flex items-center gap-2 text-brand-orange hover:text-brand-amber font-bold text-sm"><span>To‘liq menyuga o‘tish</span> <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div id="popular-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6"></div>
+        </div>
+    </section>
+
+    <!-- ==================== YETKAZIB BERISH & BIZ HAQIMIZDA ==================== -->
+    <section id="delivery" class="py-16 sm:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-orange font-bold text-xs sm:text-sm uppercase tracking-widest">Tezkor Xizmat</span>
+                <h2 class="fluid-h2 font-black text-white mt-1 mb-3">Yetkazib Berish Shartlari</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Andijon tumani va shahri bo‘ylab maxsus termo-sumkalarda issiq holda yetkazib beramiz.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-7 text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-orange/15 text-brand-orange flex items-center justify-center mx-auto mb-5 text-2xl"><i class="fa-solid fa-bolt"></i></div>
+                    <h3 class="text-lg font-extrabold text-white mb-2">25–35 Daqiqada Yetkazish</h3>
+                    <p class="text-gray-400 text-sm">Buyurtmangiz tayyorlanishi bilan kuryerlarimiz tezkor yo‘lga chiqadi.</p>
+                </div>
+                <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-7 text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-amber/15 text-brand-amber flex items-center justify-center mx-auto mb-5 text-2xl"><i class="fa-solid fa-wallet"></i></div>
+                    <h3 class="text-lg font-extrabold text-white mb-2">Qulay To‘lov Turlari</h3>
+                    <p class="text-gray-400 text-sm">Naqd pul, Click, Payme yoki karta orqali eshigingiz oldida to‘lov qiling.</p>
+                </div>
+                <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-7 text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center mx-auto mb-5 text-2xl"><i class="fa-solid fa-bag-shopping"></i></div>
+                    <h3 class="text-lg font-extrabold text-white mb-2">100 000 so‘mdan Bepul</h3>
+                    <p class="text-gray-400 text-sm">100 000 so‘mdan yuqori buyurtmalar uchun yetkazib berish bepul!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BIZ HAQIMIZDA -->
+    <section id="about" class="py-16 sm:py-20 bg-brand-card/40 border-y border-brand-border/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-6">
+                    <div class="relative rounded-3xl overflow-hidden border border-brand-border shadow-2xl">
+                        <img src="Olovli BILOLDINOV FOOD bayrami.png" alt="Biloldinov Food" class="w-full h-64 sm:h-96 object-cover" onerror="this.src='https://placehold.co/800x600/181B22/FFB300?text=BILOLDINOV+FOOD';">
+                    </div>
+                </div>
+                <div class="lg:col-span-6">
+                    <span class="text-brand-orange font-bold text-xs sm:text-sm uppercase tracking-widest">Biz Haqimizda</span>
+                    <h2 class="fluid-h2 font-black text-white mt-1 mb-4">Nima Uchun Aynan Biloldinov Food?</h2>
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed mb-5">
+                        <strong class="text-white">Biloldinov Food</strong> — Andijonda zamonaviy fast-food madaniyatini yangi bosqichga olib chiqayotgan brend. Biz har bir lavash va burgerlarni o‘z oilamiz uchun tayyorlagandek mehr bilan pishiramiz.
+                    </p>
+                    <ul class="space-y-3 mb-7">
+                        <li class="flex items-start gap-3 text-sm text-gray-200"><i class="fa-solid fa-circle-check text-brand-orange mt-1"></i> Maxsus mualliflik souslari va sersuv go‘shtlar</li>
+                        <li class="flex items-start gap-3 text-sm text-gray-200"><i class="fa-solid fa-circle-check text-brand-orange mt-1"></i> Buyurtma berilgan zahoti issiq tayyorlanadigan menyu</li>
+                        <li class="flex items-start gap-3 text-sm text-gray-200"><i class="fa-solid fa-circle-check text-brand-orange mt-1"></i> Andijon tumani, Meta IT School mo‘ljali</li>
+                    </ul>
+                    <a href="#location" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-brand-orange hover:bg-brand-red text-white font-bold text-sm transition-colors">
+                        <i class="fa-solid fa-location-dot"></i> Manzilimizni xaritada ko‘rish
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== GOOGLE MAPS ==================== -->
+    <section id="location" class="py-16 sm:py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange/15 border border-brand-orange/30 text-brand-orange text-xs sm:text-sm font-bold mb-3">
+                    <i class="fa-solid fa-map-location-dot"></i> BIZNING MANZILIMIZ
+                </div>
+                <h2 class="fluid-h2 font-black text-white uppercase tracking-tight mb-3">
+                    BIZNI QAYERDAN TOPISH MUMKIN?
+                </h2>
+                <p class="fluid-p text-brand-amber font-semibold">
+                    Biloldinov Food — sizga yaqin, mazali taomlar manzili!
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+                <div class="lg:col-span-5 bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-orange to-brand-red flex items-center justify-center text-white text-2xl shadow-lg mb-6">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-white mb-4">Biloldinov Food Filiali</h3>
+
+                        <div class="space-y-4 text-sm sm:text-base">
+                            <div class="flex items-start gap-3.5 p-3.5 rounded-2xl bg-brand-dark/70 border border-brand-border">
+                                <i class="fa-solid fa-location-dot text-brand-orange text-lg mt-0.5 shrink-0"></i>
+                                <div>
+                                    <span class="text-xs text-gray-400 uppercase font-bold block">Aniq Manzil:</span>
+                                    <p class="text-white font-semibold mt-0.5">Andijon viloyati, Andijon tumani, Meta IT School mo‘ljali.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3.5 p-3.5 rounded-2xl bg-brand-dark/70 border border-brand-border">
+                                <i class="fa-regular fa-clock text-brand-amber text-lg mt-0.5 shrink-0"></i>
+                                <div>
+                                    <span class="text-xs text-gray-400 uppercase font-bold block">Ish Vaqti:</span>
+                                    <p class="text-white font-semibold mt-0.5">Har kuni: 09:00 — 23:30</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3.5 p-3.5 rounded-2xl bg-brand-dark/70 border border-brand-border">
+                                <i class="fa-solid fa-phone text-emerald-400 text-lg mt-0.5 shrink-0"></i>
+                                <div>
+                                    <span class="text-xs text-gray-400 uppercase font-bold block">Buyurtma telefoni:</span>
+                                    <a href="tel:+998950611012" class="text-white hover:text-brand-orange font-bold mt-0.5 inline-block">95 061 10 12</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-7 pt-5 border-t border-brand-border">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Meta+IT+School+Andijon+tumani+Uzbekistan" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-red text-white font-extrabold text-sm sm:text-base shadow-lg shadow-brand-orange/30">
+                            <i class="fa-solid fa-diamond-turn-right text-lg"></i> Google Maps orqali yo‘lni ko‘rish
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 bg-brand-card border border-brand-border rounded-3xl p-2 sm:p-3 shadow-xl overflow-hidden flex flex-col">
+                    <div class="relative w-full h-[320px] sm:h-[420px] lg:h-full min-h-[320px] rounded-2xl overflow-hidden bg-brand-dark">
+                        <iframe title="Biloldinov Food Map" src="https://maps.google.com/maps?q=Meta+IT+School+Andijon+tumani+Uzbekistan&t=&z=15&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER & CONTACT ==================== -->
+    <footer id="contact" class="bg-brand-card border-t border-brand-border pt-14 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-brand-border">
+                <div class="lg:col-span-4">
+                    <a href="#home" class="flex items-center gap-2.5 mb-4">
+                        <img src="Olovli BILOLDINOV FOOD bayrami.png" alt="Logo" class="w-11 h-11 object-cover rounded-xl">
+                        <span class="font-extrabold text-xl text-white">BILOLDINOV <span class="text-brand-orange">FOOD</span></span>
+                    </a>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-5">Andijon viloyati, Andijon tumani, Meta IT School mo‘ljali. Telefon: 95 061 10 12</p>
+                    <div class="flex items-center gap-3">
+                        <a href="tel:+998950611012" class="w-10 h-10 rounded-xl bg-brand-dark border border-brand-border hover:border-brand-orange flex items-center justify-center text-gray-300"><i class="fa-solid fa-phone"></i></a>
+                        <a href="https://t.me/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl bg-brand-dark border border-brand-border hover:border-brand-orange flex items-center justify-center text-gray-300"><i class="fa-brands fa-telegram text-lg"></i></a>
+                        <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl bg-brand-dark border border-brand-border hover:border-brand-orange flex items-center justify-center text-gray-300"><i class="fa-brands fa-instagram text-lg"></i></a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3">
+                    <h4 class="font-extrabold text-white text-base mb-4">Bo‘limlar</h4>
+                    <ul class="space-y-2.5 text-sm text-gray-400">
+                        <li><a href="#home" class="hover:text-brand-orange">Bosh sahifa</a></li>
+                        <li><a href="#menu" class="hover:text-brand-orange">Menyu ko‘rish</a></li>
+                        <li><a href="#discounts" class="hover:text-brand-orange">Chegirmalar</a></li>
+                        <li><a href="#popular" class="hover:text-brand-orange">Mashhur taomlar</a></li>
+                        <li><a href="#location" class="hover:text-brand-orange">Bizning manzilimiz</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-5">
+                    <h4 class="font-extrabold text-white text-base mb-2">Savol yoki taklifingiz bormi?</h4>
+                    <p class="text-gray-400 text-xs sm:text-sm mb-4">Xabar qoldiring, operatorimiz tez orada 95 061 10 12 orqali bog‘lanadi.</p>
+                    <form onsubmit="submitContactForm(event)" class="space-y-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <input type="text" id="contact-name" required placeholder="Ismingiz" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border focus:border-brand-orange text-white text-sm outline-none">
+                            <input type="tel" id="contact-phone" required placeholder="95 061 10 12" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border focus:border-brand-orange text-white text-sm outline-none">
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" id="contact-msg" required placeholder="Xabaringiz..." class="flex-1 px-4 py-3 rounded-xl bg-brand-dark border border-brand-border focus:border-brand-orange text-white text-sm outline-none">
+                            <button type="submit" class="px-6 py-3 rounded-xl bg-brand-orange hover:bg-brand-red text-white font-bold text-sm shrink-0">Yuborish</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500 text-center">
+                <p>&copy; 2026 Biloldinov Food. Barcha huquqlar himoyalangan. Tel: 95 061 10 12</p>
+                <p>Andijon tumani, Meta IT School mo‘ljali</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== SAVATCHA DRAWER ==================== -->
+    <div id="cart-backdrop" onclick="toggleCart()" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-50"></div>
+    
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-brand-card border-l border-brand-border z-50 transform translate-x-full cart-drawer flex flex-col shadow-2xl">
+        <div class="p-4 sm:p-5 border-b border-brand-border flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-bag-shopping text-brand-orange text-xl"></i>
+                <h3 class="font-extrabold text-lg text-white">Sizning Savatchangiz</h3>
+            </div>
+            <button onclick="toggleCart()" aria-label="Yopish" class="w-9 h-9 rounded-xl bg-brand-dark border border-brand-border text-gray-400 hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3.5"></div>
+
+        <div id="cart-footer" class="p-4 sm:p-5 border-t border-brand-border bg-brand-dark/80 space-y-3">
+            <div class="flex justify-between text-sm text-gray-400">
+                <span>Taomlar narxi:</span>
+                <span id="cart-subtotal" class="text-white font-semibold">0 so‘m</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-400">
+                <span>Yetkazib berish:</span>
+                <span id="cart-delivery" class="text-emerald-400 font-semibold">0 so‘m</span>
+            </div>
+            <div class="flex justify-between text-base sm:text-lg font-black text-white pt-2 border-t border-brand-border">
+                <span>Jami to‘lov:</span>
+                <span id="cart-total" class="text-brand-orange">0 so‘m</span>
+            </div>
+            <button onclick="openCheckoutModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-red text-white font-extrabold text-base shadow-lg shadow-brand-orange/25">
+                Buyurtmani rasmiylashtirish
+            </button>
+        </div>
+    </aside>
+
+    <!-- ==================== BUYURTMA MODALI ==================== -->
+    <div id="checkout-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+        <div class="bg-brand-card border border-brand-border rounded-3xl w-full max-w-lg p-5 sm:p-7 shadow-2xl relative my-auto">
+            <button onclick="closeCheckoutModal()" aria-label="Yopish" class="absolute top-4 right-4 w-9 h-9 rounded-xl bg-brand-dark border border-brand-border text-gray-400 hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 class="text-xl sm:text-2xl font-black text-white mb-1">Buyurtma Berish</h3>
+            <p class="text-gray-400 text-xs sm:text-sm mb-5">Ma’lumotlaringizni kiriting, kuryerimiz 30 daqiqada yetkazadi! (Aloqa: 95 061 10 12)</p>
+
+            <form onsubmit="submitOrder(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1.5">Ismingiz *</label>
+                    <input type="text" id="order-name" required placeholder="Masalan: Jasurbek" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border focus:border-brand-orange text-white text-sm outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1.5">Telefon raqamingiz *</label>
+                    <input type="tel" id="order-phone" required value="95 061 10 12" placeholder="95 061 10 12" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border focus:border-brand-orange text-white text-sm outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1.5">Yetkazib berish manzili *</label>
+                    <input type="text" id="order-address" required placeholder="Andijon tumani, ko‘cha va uy raqami" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border focus:border-brand-orange text-white text-sm outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1.5">To‘lov turi</label>
+                    <select id="order-payment" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border focus:border-brand-orange text-white text-sm outline-none">
+                        <option value="Naqd pul">💵 Naqd pul (kuryerga)</option>
+                        <option value="Click / Payme">💳 Click / Payme orqali</option>
+                        <option value="Karta orqali terminal">💳 Karta orqali</option>
+                    </select>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-brand-dark border border-brand-border flex items-center justify-between">
+                    <span class="text-sm text-gray-300 font-semibold">Umumiy summa:</span>
+                    <span id="checkout-total-display" class="text-lg font-black text-brand-orange">0 so‘m</span>
+                </div>
+                <button type="submit" class="w-full py-4 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-red text-white font-extrabold text-base shadow-lg shadow-brand-orange/30">
+                    <i class="fa-solid fa-check-circle mr-1.5"></i> Buyurtmani Tasdiqlash
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast-container" class="fixed bottom-4 right-4 left-4 sm:left-auto z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        const menuItems = [
+            { id: 1, name: "Klassik Mol Go‘shtli Lavash", category: "Lavashlar", price: 32000, desc: "Yupqa xamir, sersuv mol go‘shti, bodring, pomidor, chips va maxsus sous.", badge: "Xit", popular: true, image: "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=700&q=80" },
+            { id: 2, name: "Pishloqli Big Lavash", category: "Lavashlar", price: 36000, desc: "Ikki hissa mol go‘shti, Cheddar pishlog‘i, barra sabzavotlar.", badge: "Top", popular: true, image: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=80" },
+            { id: 3, name: "Tovuqli Tandir Lavash", category: "Lavashlar", price: 29000, desc: "Grilda pishirilgan tovuq filesi, pomidor va sarimsoqli sous.", badge: "", popular: false, image: "https://images.unsplash.com/photo-1644704170910-a0cdf183649b?auto=format&fit=crop&w=700&q=80" },
+            { id: 4, name: "Klassik Gamburger", category: "Burgerlar", price: 28000, desc: "Mol go‘shtidan kotlet, bulochka, tuzlangan bodring, pomidor va sous.", badge: "", popular: false, image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=700&q=80" },
+            { id: 5, name: "Biloldinov Special Burger", category: "Burgerlar", price: 38000, desc: "Ikkita sersuv kotlet, ikki qavat Cheddar pishlog‘i, karamellangan piyoz.", badge: "Kun Xiti", popular: true, image: "Olovli BILOLDINOV FOOD bayrami.png" },
+            { id: 6, name: "Chiken Krispi Burger", category: "Burgerlar", price: 27000, desc: "Qarsildoq panirovkadagi tovuq filesi, aysberg va pishloqli sous.", badge: "Yangi", popular: false, image: "https://images.unsplash.com/photo-1615297928064-24977384d0da?auto=format&fit=crop&w=700&q=80" },
+            { id: 7, name: "Qirollik Hot-Dog", category: "Hot-doglar", price: 22000, desc: "Ikkita dudlangan sosiska, pishloq, koreyscha sabzi, xantal.", badge: "Xit", popular: true, image: "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=700&q=80" },
+            { id: 8, name: "Klassik Hot-Dog", category: "Hot-doglar", price: 16000, desc: "Yumshoq bulochka, sifatli sosiska, ketchup va mayonez.", badge: "", popular: false, image: "https://images.unsplash.com/photo-1541214113241-21578d2d9b62?auto=format&fit=crop&w=700&q=80" },
+            { id: 9, name: "Klab Sendvich Tovuqli", category: "Sendvichlar", price: 30000, desc: "Tost noni, tovuq go‘shti, pishloq, pomidor, salat bargi va fri.", badge: "Mazali", popular: false, image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=700&q=80" },
+            { id: 10, name: "Go‘shtli Toster Sendvich", category: "Sendvichlar", price: 32000, desc: "Grilda qizartirilgan non orasida mol go‘shti va pishloq.", badge: "", popular: false, image: "https://images.unsplash.com/photo-1553909489-cd47e0907980?auto=format&fit=crop&w=700&q=80" },
+            { id: 11, name: "Kartoshka Fri (Katta)", category: "Fri va gazaklar", price: 16000, desc: "Oltin rangda qovurilgan qarsildoq kartoshka fri va ketchup.", badge: "", popular: false, image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=700&q=80" },
+            { id: 12, name: "Tovuqli Naggetslar (9 dona)", category: "Fri va gazaklar", price: 24000, desc: "Qarsildoq tovuq naggetslari pishloqli sous bilan.", badge: "", popular: false, image: "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=700&q=80" },
+            { id: 13, name: "Coca-Cola (0.5 L)", category: "Ichimliklar", price: 9000, desc: "Muzdek salqin Coca-Cola ichimligi.", badge: "", popular: false, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=700&q=80" },
+            { id: 14, name: "Moxito Fresh (0.4 L)", category: "Ichimliklar", price: 15000, desc: "Yalpiz, laym va muz bo‘laklari bilan tetiklashtiruvchi limonad.", badge: "Yangi", popular: false, image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=700&q=80" },
+            { id: 15, name: "Pepperoni Pitsa (30 sm)", category: "Boshqa taomlar", price: 65000, desc: "Mozzarella pishlog‘i, pepperoni kolbasasi va italyan tomat sousi.", badge: "Xit", popular: false, image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=700&q=80" },
+            { id: 16, name: "Donar Box (Mol go‘shtli)", category: "Boshqa taomlar", price: 37000, desc: "Maxsus qutida mol go‘shti donar, fri va ikki xil sous.", badge: "", popular: false, image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=700&q=80" },
+            { id: 17, name: "Talabalar Kombo Seti (-20%)", category: "Lavashlar", price: 41000, desc: "Klassik Tovuqli Lavash + Kartoshka Fri + Cola 0.5L.", badge: "-20%", popular: false, image: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=700&q=80" },
+            { id: 18, name: "Oilaviy Mega Set", category: "Burgerlar", price: 139000, desc: "2 ta Big Lavash + 2 ta Cheeseburger + 2 ta Fri + 1.5L Cola.", badge: "Mega Set", popular: false, image: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=700&q=80" }
+        ];
+
+        let currentCategory = "Barcha taomlar";
+        let cart = [];
+
+        function formatPrice(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " so‘m";
+        }
+
+        function createFoodCardHTML(item) {
+            const badgeHTML = item.badge 
+                ? `<span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-brand-orange text-white text-xs font-extrabold shadow-md">${item.badge}</span>` 
+                : '';
+
+            return `
+                <article class="food-card bg-brand-card border border-brand-border rounded-3xl overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="relative h-48 sm:h-52 overflow-hidden bg-brand-dark">
+                            <img src="${item.image}" alt="${item.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/600x450/181B22/FF5722?text=Biloldinov+Food';">
+                            ${badgeHTML}
+                            <span class="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg bg-brand-dark/85 text-gray-200 text-[11px] font-semibold border border-white/10">${item.category}</span>
+                        </div>
+                        <div class="p-4 sm:p-5">
+                            <h3 class="font-extrabold text-base sm:text-lg text-white leading-snug mb-1.5">${item.name}</h3>
+                            <p class="text-gray-400 text-xs sm:text-sm line-clamp-2 leading-relaxed">${item.desc}</p>
+                        </div>
+                    </div>
+
+                    <div class="px-4 sm:px-5 pb-4 sm:pb-5 pt-2 flex items-center justify-between gap-2">
+                        <span class="font-black text-base sm:text-lg text-brand-amber">${formatPrice(item.price)}</span>
+                        <button onclick="addToCartById(${item.id})" class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-red active:scale-95 text-white font-bold text-xs sm:text-sm transition-all shadow-md shadow-brand-orange/20">
+                            <i class="fa-solid fa-cart-plus"></i> <span>Qo‘shish</span>
+                        </button>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderMenu() {
+            const grid = document.getElementById("menu-grid");
+            const emptyState = document.getElementById("empty-menu-state");
+            const searchInput = document.getElementById("menu-search-input");
+            const clearBtn = document.getElementById("clear-search-btn");
+            
+            const query = searchInput.value.trim().toLowerCase();
+            clearBtn.classList.toggle("hidden", query.length === 0);
+
+            const filtered = menuItems.filter(item => {
+                const matchesCat = currentCategory === "Barcha taomlar" || item.category === currentCategory;
+                const matchesQuery = item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query);
+                return matchesCat && matchesQuery;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = "";
+                emptyState.classList.remove("hidden");
+            } else {
+                emptyState.classList.add("hidden");
+                grid.innerHTML = filtered.map(createFoodCardHTML).join("");
+            }
+        }
+
+        function renderPopular() {
+            const popularGrid = document.getElementById("popular-grid");
+            const popularItems = menuItems.filter(item => item.popular).slice(0, 4);
+            popularGrid.innerHTML = popularItems.map(createFoodCardHTML).join("");
+        }
+
+        function selectCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll(".cat-btn").forEach(btn => {
+                if (btn.dataset.cat === category) {
+                    btn.className = "cat-btn active shrink-0 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-orange text-white shadow-lg shadow-brand-orange/25 transition-all";
+                } else {
+                    btn.className = "cat-btn shrink-0 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-card text-gray-300 hover:text-white border border-brand-border transition-all";
+                }
+            });
+            renderMenu();
+        }
+
+        function filterMenu() {
+            renderMenu();
+        }
+
+        function clearSearch() {
+            document.getElementById("menu-search-input").value = "";
+            renderMenu();
+        }
+
+        function resetMenuFilters() {
+            document.getElementById("menu-search-input").value = "";
+            selectCategory("Barcha taomlar");
+        }
+
+        // CART LOGIC
+        function addToCartById(id) {
+            const product = menuItems.find(item => item.id === id);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`"${product.name}" savatchaga qo‘shildi!`);
+        }
+
+        function changeQty(id, delta) {
+            const itemIndex = cart.findIndex(item => item.id === id);
+            if (itemIndex === -1) return;
+
+            cart[itemIndex].qty += delta;
+            if (cart[itemIndex].qty <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById("cart-badge");
+            const container = document.getElementById("cart-items-container");
+            const footer = document.getElementById("cart-footer");
+            const subtotalEl = document.getElementById("cart-subtotal");
+            const deliveryEl = document.getElementById("cart-delivery");
+            const totalEl = document.getElementById("cart-total");
+
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.textContent = totalCount;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12">
+                        <div class="w-16 h-16 rounded-2xl bg-brand-dark border border-brand-border text-gray-500 flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </div>
+                        <h4 class="font-bold text-white text-base mb-1">Savatchangiz bo‘sh</h4>
+                        <p class="text-gray-400 text-xs max-w-xs mb-5">Mazali taomlarni menyudan tanlab qo‘shing!</p>
+                        <button onclick="toggleCart(); window.location.hash='#menu';" class="px-5 py-2.5 rounded-xl bg-brand-orange text-white font-bold text-xs">Menyuni ko‘rish</button>
+                    </div>
+                `;
+                footer.classList.add("hidden");
+                return;
+            }
+
+            footer.classList.remove("hidden");
+
+            container.innerHTML = cart.map(item => `
+                <div class="flex items-center gap-3 bg-brand-dark/90 border border-brand-border rounded-2xl p-3">
+                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-xl object-cover shrink-0" onerror="this.src='https://placehold.co/150x150/181B22/FF5722?text=Food'">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-white text-sm truncate">${item.name}</h4>
+                        <p class="text-brand-amber font-extrabold text-xs sm:text-sm mt-0.5">${formatPrice(item.price * item.qty)}</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="changeQty(${item.id}, -1)" aria-label="Kamaytirish" class="w-7 h-7 rounded-lg bg-brand-card border border-brand-border hover:border-brand-orange text-white flex items-center justify-center text-xs"><i class="fa-solid fa-minus"></i></button>
+                            <span class="text-white font-bold text-xs min-w-[20px] text-center">${item.qty}</span>
+                            <button onclick="changeQty(${item.id}, 1)" aria-label="Ko‘paytirish" class="w-7 h-7 rounded-lg bg-brand-card border border-brand-border hover:border-brand-orange text-white flex items-center justify-center text-xs"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" aria-label="O‘chirish" class="text-gray-500 hover:text-brand-red p-1.5"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                </div>
+            `).join("");
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const deliveryFee = subtotal >= 100000 ? 0 : 10000;
+            const total = subtotal + deliveryFee;
+
+            subtotalEl.textContent = formatPrice(subtotal);
+            deliveryEl.textContent = deliveryFee === 0 ? "Bepul (0 so‘m)" : formatPrice(deliveryFee);
+            deliveryEl.className = deliveryFee === 0 ? "text-emerald-400 font-bold" : "text-white font-semibold";
+            totalEl.textContent = formatPrice(total);
+        }
+
+        function toggleCart() {
+            const drawer = document.getElementById("cart-drawer");
+            const backdrop = document.getElementById("cart-backdrop");
+            const isClosed = drawer.classList.contains("translate-x-full");
+
+            if (isClosed) {
+                drawer.classList.remove("translate-x-full");
+                backdrop.classList.remove("hidden");
+                document.body.style.overflow = "hidden";
+            } else {
+                drawer.classList.add("translate-x-full");
+                backdrop.classList.add("hidden");
+                document.body.style.overflow = "";
+            }
+        }
+
+        function openCheckoutModal() {
+            if (cart.length === 0) return;
+            toggleCart();
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const deliveryFee = subtotal >= 100000 ? 0 : 10000;
+            document.getElementById("checkout-total-display").textContent = formatPrice(subtotal + deliveryFee);
+            document.getElementById("checkout-modal").classList.remove("hidden");
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById("checkout-modal").classList.add("hidden");
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById("order-name").value.trim();
+            closeCheckoutModal();
+            cart = [];
+            updateCartUI();
+            e.target.reset();
+            showToast(`Rahmat, ${name}! Buyurtmangiz qabul qilindi. Operatorimiz tez orada 95 061 10 12 orqali bog‘lanadi!`);
+        }
+
+        function submitContactForm(e) {
+            e.preventDefault();
+            const name = document.getElementById("contact-name").value.trim();
+            e.target.reset();
+            showToast(`Xabaringiz yuborildi, ${name}! Tez orada bog‘lanamiz.`);
+        }
+
+        function copyPromoCode(code) {
+            const tempInput = document.createElement("input");
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand("copy");
+                showToast(`Promokod "${code}" nusxalandi!`);
+            } catch (err) {
+                showToast(`Promokod: ${code}`);
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        function showToast(message) {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            toast.className = "bg-brand-card border border-brand-orange text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-semibold pointer-events-auto transition-all duration-300";
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-brand-orange text-base shrink-0"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                toast.style.transform = "translateY(8px)";
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById("mobile-menu");
+            const icon = document.getElementById("mobile-menu-icon");
+            const btn = document.getElementById("mobile-menu-btn");
+            const isHidden = menu.classList.contains("hidden");
+
+            if (isHidden) {
+                menu.classList.remove("hidden");
+                icon.classList.remove("fa-bars");
+                icon.classList.add("fa-xmark");
+                btn.setAttribute("aria-expanded", "true");
+            } else {
+                closeMobileMenu();
+            }
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById("mobile-menu");
+            const icon = document.getElementById("mobile-menu-icon");
+            const btn = document.getElementById("mobile-menu-btn");
+            menu.classList.add("hidden");
+            icon.classList.remove("fa-xmark");
+            icon.classList.add("fa-bars");
+            btn.setAttribute("aria-expanded", "false");
+        }
+
+        document.querySelectorAll(".mobile-nav-link").forEach(link => {
+            link.addEventListener("click", () => closeMobileMenu());
+        });
+
+        const sections = document.querySelectorAll("section[id], footer[id]");
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        function updateActiveNavOnScroll() {
+            let currentId = "home";
+            const scrollY = window.scrollY + 140;
+
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                if (scrollY >= top && scrollY < top + height) {
+                    currentId = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href") === `#${currentId}`) {
+                    link.classList.add("active");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", updateActiveNavOnScroll, { passive: true });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderMenu();
+            renderPopular();
+            updateCartUI();
+            updateActiveNavOnScroll();
+        });
+    </script>
+</body>
+</html>
